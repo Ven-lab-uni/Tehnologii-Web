@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "title": "Atomic Habits",
+        "author": "James Clear",
+        "price": 25.99,
+        "stock": 10,
+        "isbn": "978-0735211292",
+        "category": "Self-Help",
+        "description": "O metodă ușoară și dovedită de a construi obiceiuri bune și de a elimina pe cele rele.",
+        "cover": "../images/Atomic-Habits.jpg"
+    },
+    {
+        "id": 2,
+        "title": "48 Laws of Power",
+        "author": "Robert Greene",
+        "price": 34.99,
+        "stock": 10,
+        "isbn": "978-0140280197",
+        "category": "Psychology",
+        "description": "Un ghid maestru pentru gândire strategică și manipulare.",
+        "cover": "../images/48_laws_of_power.jpg"
+    },
+    {
+        "id": 3,
+        "title": "Rich Dad Poor Dad",
+        "author": "Robert Kiyosaki",
+        "price": 19.99,
+        "stock": 10,
+        "isbn": "978-1612680194",
+        "category": "Finance",
+        "description": "Ce învață bogații copiii lor despre bani.",
+        "cover": "../images/Rich_Dad_Poor_Dad.jpg"
+    },
+    {
+        "id": 4,
+        "title": "Trading in the Zone",
+        "author": "Mark Douglas",
+        "price": 42.99,
+        "stock": 10,
+        "isbn": "978-0133993777",
+        "category": "Trading",
+        "description": "Stăpânește piața cu încredere și disciplină.",
+        "cover": "../images/Trading_in_the_zone.jpg"
+    },
+    {
+        "id": 5,
+        "title": "Best Loser Wins",
+        "author": "Tom Hougaard",
+        "price": 28.99,
+        "stock": 10,
+        "isbn": "978-1912632667",
+        "category": "Trading",
+        "description": "De ce gândirea normală conduce la rezultate mediocre.",
+        "cover": "../images/Best_Loser_Wins.jpg"
+    }
+]
