@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrare Comenzi - My Library</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .admin-header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-icon.orders { color: #3498db; }
+        .stat-icon.revenue { color: #27ae60; }
+        .stat-icon.books { color: #e74c3c; }
+        .stat-icon.pending { color: #f39c12; }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+        
+        .orders-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-refresh {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-refresh:hover {
+            background: #2980b9;
+        }
+        
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #c82333;
+        }
+        
+        .orders-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .order-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.3s ease;
+        }
+        
+        .order-item:hover {
+            background: var(--bg-light);
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .order-number {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.2rem;
+        }
+        
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .order-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .order-items {
+            margin-bottom: 1rem;
+        }
+        
+        .order-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        
+        .order-item-row .order-item-quantity {
+            margin: 0 1rem;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .order-item-title {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .order-item-quantity {
+            color: var(--text-light);
+        }
+        
+        .order-item-price {
+            font-weight: 600;
+            color: #27ae60;
+        }
+        
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--bg-light);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .order-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-accept {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-accept:hover {
+            background: #218838;
+        }
+        
+        .btn-reject {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-reject:hover {
+            background: #c82333;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            background: white;
+            font-size: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-book-open"></i>
+                    <span>My Library</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link">Acasă</a></li>
+                    <li><a href="book1.html" class="nav-link">Cărți</a></li>
+                    <li><a href="admin.html" class="nav-link active">Comenzi</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="admin-container">
+            <div class="admin-header">
+                <h1><i class="fas fa-clipboard-list"></i> Panou Administrare</h1>
+                <p>Gestionează comenzile și vizualizează statisticile vânzărilor</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon orders">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-value" id="totalOrders">0</div>
+                    <div class="stat-label">Comenzi Totale</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon revenue">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <div class="stat-value" id="totalRevenue">0 €</div>
+                    <div class="stat-label">Venituri Totale</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon books">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="stat-value" id="totalBooks">0</div>
+                    <div class="stat-label">Cărți Vândute</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="pendingOrders">0</div>
+                    <div class="stat-label">Comenzi în Așteptare</div>
+                </div>
+            </div>
+            
+            <div class="orders-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Comenzi Recente</h2>
+                    <div class="controls">
+                        <select class="filter-select" id="statusFilter">
+                            <option value="all">Toate Comenzile</option>
+                            <option value="pending">În Așteptare</option>
+                            <option value="completed">Finalizate</option>
+                            <option value="cancelled">Anulate</option>
+                        </select>
+                        <button class="btn btn-clear" onclick="adminPanel.clearAllOrders()">
+                            <i class="fas fa-trash"></i> Șterge Tot
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="orders-list" id="ordersList">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h3>Nicio comandă găsită</h3>
+                        <p>Comenzile vor apărea aici când clienții vor plasa comenzi.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i>
+                <span>My Library</span>
+            </div>
+            <p class="footer-text">Libraria mea personala</p>
+            <div class="footer-social">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollToTop" class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/database.js"></script>
+    <script>
+        // Admin Panel Script - Management Comenzi
+        class AdminPanel {
+            constructor() {
+                this.orders = [];
+                this.currentFilter = 'all';
+            }
+
+            async init() {
+                console.log('🔧 Inițializare panou administrare...');
+                await this.loadOrders();
+                await this.updateStats();
+                this.setupEventListeners();
+                console.log('✅ Panou administrare gata!');
+            }
+
+            async loadOrders() {
+                try {
+                    this.orders = await dbManager.getAllOrders();
+                    this.renderOrders();
+                    await this.updateStats();
+                } catch (error) {
+                    console.error('❌ Eroare la încărcarea comenzilor:', error);
+                    this.showNotification('Eroare la încărcarea comenzilor', 'error');
+                }
+            }
+
+            renderOrders() {
+                const ordersList = document.getElementById('ordersList');
+                const statusFilter = document.getElementById('statusFilter').value;
+                
+                const filteredOrders = this.filterOrders(this.orders, statusFilter);
+                
+                if (filteredOrders.length === 0) {
+                    ordersList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>Nicio comandă găsită</h3>
+                            <p>Nicio comandă corespunde criteriilor selectate.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                ordersList.innerHTML = filteredOrders.map(order => `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <div>
+                                <div class="order-number">#${order.orderNumber || order.id}</div>
+                                <div class="order-date">${new Date(order.date).toLocaleDateString('ro-RO')}</div>
+                            </div>
+                            <div class="order-status status-${order.status}">
+                                ${this.getStatusText(order.status)}
+                            </div>
+                        </div>
+                        
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item-row">
+                                    <span class="order-item-title">${item.title}</span>
+                                    <span class="order-item-quantity">x${item.quantity}</span>
+                                    <span class="order-item-price">${(item.price * item.quantity).toFixed(2)} €</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="order-total">
+                            <span>Total: ${order.total.toFixed(2)} €</span>
+                            <div class="order-actions">
+                                ${order.status === 'pending' ? `
+                                    <button class="btn btn-accept" onclick="adminPanel.updateOrderStatus(${order.id}, 'completed')">
+                                        <i class="fas fa-check"></i> Acceptă
+                                    </button>
+                                    <button class="btn btn-reject" onclick="adminPanel.deleteOrder(${order.id})">
+                                        <i class="fas fa-trash"></i> Șterge
+                                    </button>
+                                ` : `
+                                    <button class="btn btn-accept" onclick="adminPanel.viewOrderDetails(${order.id})">
+                                        <i class="fas fa-eye"></i> Detalii
+                                    </button>
+                                    <button class="btn btn-reject" onclick="adminPanel.deleteOrder(${order.id})">
+                                        <i class="fas fa-trash"></i> Șterge
+                                    </button>
+                                `}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            filterOrders(orders, status) {
+                if (status === 'all') return orders;
+                return orders.filter(order => order.status === status);
+            }
+
+            getStatusText(status) {
+                const statusMap = {
+                    'pending': 'În Așteptare',
+                    'completed': 'Finalizată',
+                    'cancelled': 'Anulată'
+                };
+                return statusMap[status] || status;
+            }
+
+            async updateOrderStatus(orderId, newStatus) {
+                try {
+                    await dbManager.updateOrderStatus(orderId, newStatus);
+                    await this.loadOrders();
+                    
+                    const action = newStatus === 'completed' ? 'acceptată' : 'respingată';
+                    this.showNotification(`Comanda #${orderId} a fost ${action}`, 'success');
+                } catch (error) {
+                    console.error('❌ Eroare la actualizarea comenzii:', error);
+                    this.showNotification('Eroare la actualizarea comenzii', 'error');
+                }
+            }
+
+            async deleteOrder(orderId) {
+                try {
+                    await dbManager.deleteOrder(orderId);
+                    await this.loadOrders();
+                    this.showNotification(`Comanda #${orderId} a fost ștearsă`, 'success');
+                } catch (error) {
+                    console.error('❌ Eroare la ștergerea comenzii:', error);
+                    this.showNotification('Eroare la ștergerea comenzii', 'error');
+                }
+            }
+
+            viewOrderDetails(orderId) {
+                const order = this.orders.find(o => o.id === orderId);
+                if (order) {
+                    alert(`Detalii Comanda #${order.orderNumber || orderId}:\n\n` +
+                          `Client: ${order.customerInfo?.name || 'N/A'}\n` +
+                          `Email: ${order.customerInfo?.email || 'N/A'}\n` +
+                          `Data: ${new Date(order.date).toLocaleString('ro-RO')}\n` +
+                          `Status: ${this.getStatusText(order.status)}\n` +
+                          `Total: ${order.total.toFixed(2)} €\n\n` +
+                          `Produse:\n` +
+                          order.items.map(item => `- ${item.title} x${item.quantity} = ${(item.price * item.quantity).toFixed(2)} €`).join('\n'));
+                }
+            }
+
+            async updateStats() {
+                const stats = await this.calculateStats();
+                
+                document.getElementById('totalOrders').textContent = stats.totalOrders;
+                document.getElementById('totalRevenue').textContent = stats.totalRevenue.toFixed(2) + ' €';
+                document.getElementById('totalBooks').textContent = stats.totalBooks;
+                document.getElementById('pendingOrders').textContent = stats.pendingOrders;
+            }
+
+            async calculateStats() {
+                try {
+                    const orders = await dbManager.getAllOrders();
+                    
+                    const totalOrders = orders.length;
+                    const totalRevenue = orders
+                        .filter(o => o.status === 'completed')
+                        .reduce((sum, o) => sum + o.total, 0);
+                    const totalBooks = orders
+                        .filter(o => o.status === 'completed')
+                        .reduce((sum, o) => sum + o.items.reduce((bookSum, item) => bookSum + item.quantity, 0), 0);
+                    const pendingOrders = orders.filter(o => o.status === 'pending').length;
+                    
+                    return { totalOrders, totalRevenue, totalBooks, pendingOrders };
+                } catch (error) {
+                    console.error('❌ Eroare la calcularea statisticilor:', error);
+                    return { totalOrders: 0, totalRevenue: 0, totalBooks: 0, pendingOrders: 0 };
+                }
+            }
+
+            async clearAllOrders() {
+                if (confirm('Ești sigur că vrei să ștergi TOATE comenzile? Această acțiune este IRREVERSIBILĂ!')) {
+                    try {
+                        await dbManager.clearAllOrders();
+                        this.orders = [];
+                        this.renderOrders();
+                        this.updateStats();
+                        this.showNotification('Toate comenzile au fost șterse', 'success');
+                    } catch (error) {
+                        console.error('❌ Eroare la ștergerea comenzilor:', error);
+                        this.showNotification('Eroare la ștergerea comenzilor', 'error');
+                    }
+                }
+            }
+
+            showNotification(message, type = 'info') {
+                const existingNotification = document.querySelector('.notification');
+                if (existingNotification) existingNotification.remove();
+                
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                        <span>${message}</span>
+                    </div>
+                    <button class="notification-close">&times;</button>
+                `;
+                
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                    z-index: 10000;
+                    max-width: 400px;
+                    animation: slideInRight 0.3s ease-out;
+                `;
+                
+                document.body.appendChild(notification);
+                
+                notification.querySelector('.notification-close').addEventListener('click', () => notification.remove());
+                
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.style.animation = 'slideOutRight 0.3s ease-out';
+                        setTimeout(() => notification.remove(), 300);
+                    }
+                }, 5000);
+            }
+
+            setupEventListeners() {
+                document.getElementById('statusFilter').addEventListener('change', (e) => {
+                    this.currentFilter = e.target.value;
+                    this.renderOrders();
+                });
+            }
+        }
+
+        // Adăugăm metode lipsă în DatabaseManager
+        if (window.dbManager) {
+            window.dbManager.getAllOrders = async function() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['orders'], 'readonly');
+                    const store = transaction.objectStore('orders');
+                    const request = store.getAll();
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            };
+
+            window.dbManager.updateOrderStatus = async function(orderId, status) {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['orders'], 'readwrite');
+                    const store = transaction.objectStore('orders');
+                    
+                    const getRequest = store.get(orderId);
+                    getRequest.onsuccess = () => {
+                        const order = getRequest.result;
+                        if (order) {
+                            order.status = status;
+                            const updateRequest = store.put(order);
+                            updateRequest.onsuccess = () => resolve(order);
+                            updateRequest.onerror = () => reject(updateRequest.error);
+                        }
+                    };
+                    getRequest.onerror = () => reject(getRequest.error);
+                });
+            };
+
+            window.dbManager.clearAllOrders = async function() {
+                return new Promise((resolve, reject) => {
+                    const transaction = this.db.transaction(['orders'], 'readwrite');
+                    const store = transaction.objectStore('orders');
+                    const request = store.clear();
+                    request.onsuccess = () => {
+                        console.log('📋 Toate comenzile au fost șterse');
+                        resolve();
+                    };
+                    request.onerror = () => reject(request.error);
+                });
+            };
+        }
+
+        // Inițializare panou administrare
+        let adminPanel;
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🔧 Încărcare panou administrare...');
+            
+            // Așteptăm ca dbManager să fie disponibil
+            const checkDbManager = setInterval(() => {
+                if (window.dbManager) {
+                    clearInterval(checkDbManager);
+                    adminPanel = new AdminPanel();
+                    adminPanel.init();
+                }
+            }, 100);
+        });
+
+        console.log('🔧 Script panou administrare încărcat');
+    </script>
+</body>
+</html>

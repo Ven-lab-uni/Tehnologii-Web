@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library - Colecție Premium de Cărți</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <i class="fas fa-book-open"></i>
+                    <span>My Library</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="nav-link active">Acasă</a></li>
+                    <li><a href="book1.html" class="nav-link">Atomic Habits</a></li>
+                    <li><a href="book2.html" class="nav-link">48 Laws of Power</a></li>
+                    <li><a href="book3.html" class="nav-link">Rich Dad Poor Dad</a></li>
+                    <li><a href="book4.html" class="nav-link">Trading in the Zone</a></li>
+                    <li><a href="book5.html" class="nav-link">Best Loser Wins</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="books-section" id="books">
+            <div class="section-header">
+                <h2 class="section-title">Cărți Recomandate</h2>
+            </div>
+            
+            <div class="books-grid">
+                <div class="book-card" data-book="atomic-habits">
+                    <div class="book-image-container">
+                        <img src="../images/Atomic-Habits.jpg" alt="Atomic Habits" class="book-image">
+                        <div class="book-overlay">
+                            <button class="view-btn" onclick="window.location.href='book1.html'">
+                                <i class="fas fa-eye"></i> Vezi Detalii
+                            </button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Atomic Habits</h3>
+                        <p class="book-author">James Clear</p>
+                    </div>
+                </div>
+
+                <div class="book-card" data-book="48-laws">
+                    <div class="book-image-container">
+                        <img src="../images/48_laws_of_power.jpg" alt="48 Laws of Power" class="book-image">
+                        <div class="book-overlay">
+                            <button class="view-btn" onclick="window.location.href='book2.html'">
+                                <i class="fas fa-eye"></i> Vezi Detalii
+                            </button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">48 Laws of Power</h3>
+                        <p class="book-author">Robert Greene</p>
+                    </div>
+                </div>
+
+                <div class="book-card" data-book="rich-dad">
+                    <div class="book-image-container">
+                        <img src="../images/Rich_Dad_Poor_Dad.jpg" alt="Rich Dad Poor Dad" class="book-image">
+                        <div class="book-overlay">
+                            <button class="view-btn" onclick="window.location.href='book3.html'">
+                                <i class="fas fa-eye"></i> Vezi Detalii
+                            </button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Rich Dad Poor Dad</h3>
+                        <p class="book-author">Robert Kiyosaki</p>
+                    </div>
+                </div>
+
+                <div class="book-card" data-book="trading-zone">
+                    <div class="book-image-container">
+                        <img src="../images/Trading_in_the_zone.jpg" alt="Trading in the Zone" class="book-image">
+                        <div class="book-overlay">
+                            <button class="view-btn" onclick="window.location.href='book4.html'">
+                                <i class="fas fa-eye"></i> Vezi Detalii
+                            </button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Trading in the Zone</h3>
+                        <p class="book-author">Mark Douglas</p>
+                    </div>
+                </div>
+
+                <div class="book-card" data-book="best-loser">
+                    <div class="book-image-container">
+                        <img src="../images/Best_Loser_Wins.jpg" alt="Best Loser Wins" class="book-image">
+                        <div class="book-overlay">
+                            <button class="view-btn" onclick="window.location.href='book5.html'">
+                                <i class="fas fa-eye"></i> Vezi Detalii
+                            </button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3 class="book-title">Best Loser Wins</h3>
+                        <p class="book-author">Tom Hougaard</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="authors-section" id="authors">
+            <div class="section-header">
+                <h2 class="section-title">Autori Recomandați</h2>
+            </div>
+            
+            <div class="authors-grid">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="author-name">James Clear</h3>
+                    <p class="author-specialty">Obiceiuri și Productivitate</p>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="author-name">Robert Greene</h3>
+                    <p class="author-specialty">Strategie și Putere</p>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="author-name">Robert Kiyosaki</h3>
+                    <p class="author-specialty">Finanțe și Investiții</p>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="author-name">Mark Douglas</h3>
+                    <p class="author-specialty">Psihologie Trading</p>
+                </div>
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="author-name">Tom Hougaard</h3>
+                    <p class="author-specialty">Strategie Trading</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-book-open"></i>
+                <span>My Library</span>
+            </div>
+            <p class="footer-text">Libraria mea personala</p>
+            <div class="footer-social">
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollToTop" class="scroll-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Doar 2 fișiere JS -->
+    <script src="../js/script.js"></script>
+    <script src="../js/database.js"></script>
+</body>
+</html>
